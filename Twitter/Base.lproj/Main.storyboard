@@ -50,7 +50,7 @@
         <!--Home-->
         <scene sceneID="rhF-fk-EOS">
             <objects>
-                <tableViewController id="Bjf-Oc-JKB" sceneMemberID="viewController">
+                <tableViewController id="Bjf-Oc-JKB" customClass="HomeTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="UcW-ie-uHq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -73,6 +73,9 @@
                     <navigationItem key="navigationItem" title="Home" id="gcu-gi-Bsf">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="WjV-vg-gmx">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="onLogOut:" destination="Bjf-Oc-JKB" id="AjN-uG-h3r"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
