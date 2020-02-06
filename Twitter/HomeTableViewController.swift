@@ -11,15 +11,15 @@ import UIKit
 class HomeTableViewController: UITableViewController
 {
     var tweetArray  = [NSDictionary]()
-    var numberOfTweet: Int!
+    var numberOfTweets: Int!
     let myRefreshControl = UIRefreshControl()
     
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        loadTweets()
         
+        loadTweets()
         myRefreshControl.addTarget(self, action: #selector(loadTweets), for: .valueChanged)
         tableView.refreshControl = myRefreshControl
     }
@@ -27,9 +27,9 @@ class HomeTableViewController: UITableViewController
     @objc func loadTweets()
     {
         let myURL = "https://api.twitter.com/1.1/statuses/home_timeline.json"
-        let myParams  = ["count":20]
         
-        
+        numberOfTweets = 20
+        let myParams  = ["count" : numberOfTweets]
         
         TwitterAPICaller.client?.getDictionariesRequest(url: myURL, parameters: myParams, success: { (tweets: [NSDictionary]) in
             
@@ -46,6 +46,38 @@ class HomeTableViewController: UITableViewController
         }, failure: { (Error) in
             print("Could not retrieve tweets")
         })
+    }
+    
+    func loadMoreTweets()
+    {
+        let myURL = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+
+        numberOfTweets = numberOfTweets + 20
+        let myParams  = ["count":numberOfTweets]
+
+        TwitterAPICaller.client?.getDictionariesRequest(url: myURL, parameters: myParams, success: { (tweets: [NSDictionary]) in
+
+            self.tweetArray.removeAll()
+
+            for  tweet in tweets
+            {
+                self.tweetArray.append(tweet)
+            }
+
+            self.tableView.reloadData()
+
+        }, failure: { (Error) in
+            print("Could not retrieve tweets")
+        })
+
+    }
+
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        if indexPath.row + 1 == tweetArray.count
+        {
+            loadMoreTweets()
+        }
     }
     
     @IBAction func onLogOut(_ sender: Any)
